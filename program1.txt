@@ -1,0 +1,52 @@
+{​
+    function withCounts(p){​
+​
+        var obj = {}​
+        p.forEach(key=>{​
+            obj[key] = typeof obj[key] === 'undefined' ? 1 : obj[key] + 1​
+        });​
+        return obj;​
+    }​
+    ​
+    var pizzas = {}​
+}​
+​
+program = statement* {​
+    return pizzas​
+}​
+​
+statement =  makepizza / modifypizza​
+​
+makepizza = 'make a pizza with'i WS i:ingredients WS 'called'i WS p:varname WS {​
+    pizzas[p] = withCounts(i)​
+}​
+​
+modifypizza = addpizza / removepizza​
+​
+addpizza = 'add' WS i:ingredient WS 'to' WS p:varname WS{​
+    var v = pizzas[p][i]​
+    pizzas[p][i] = typeof v === "undefined" ? 1 : v + 1;​
+}​
+
+removepizza = 'remove' WS i:ingredient WS 'from' WS p:varname WS{​
+    var v = pizzas[p][i] ​
+    pizzas[p][i] = typeof v === "undefined" ? -1 : v - 1;​
+}​
+
+ingredient = 'cheese'i / 'mushrooms'i / 'spinach'i / 'tomato'i / 'salt and pepper'​
+
+andingredient = WS 'and' WS i:ingredient{​
+    return i;​
+}​
+
+ingredients = first:ingredient list:andingredient* {​
+    return [first, ...list];​
+}​
+
+varname = var0:[a-zA-Z_]+ var1:[a-zA-Z0-9_]* {​
+    return var0.join("") + var1.join("")​
+}​
+
+WS 'whitespace' = [ \t\n]* ​
+
+​
